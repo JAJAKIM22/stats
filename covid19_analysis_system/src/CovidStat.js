@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from "react";
-
+import { Bar } from 'react-chartjs-2';
+import {
+  LineChart,
+  ResponsiveContainer,
+  Legend, Tooltip,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid
+} from 'recharts';
 function CovidStat() {
   const [userInput, setUserInput] = useState("");
   const [userDate, setUserDate] = useState("2022-11-16");
   const [data, setData] = useState([])
+  
   const options = {
     method: 'GET',
     headers: {
@@ -11,7 +21,38 @@ function CovidStat() {
       'X-RapidAPI-Host': 'covid-193.p.rapidapi.com'
     }
   };
-
+  const pdata = [
+    {
+        name: 'MongoDb',
+        student: 11,
+        fees: 120
+    },
+    {
+        name: 'Javascript',
+        student: 15,
+        fees: 12
+    },
+    {
+        name: 'PHP',
+        student: 5,
+        fees: 10
+    },
+    {
+        name: 'Java',
+        student: 10,
+        fees: 5
+    },
+    {
+        name: 'C#',
+        student: 9,
+        fees: 4
+    },
+    {
+        name: 'C++',
+        student: 10,
+        fees: 8
+    },
+];
 
   const handleSearch = (e) => {
     setUserInput(e.target.value);
@@ -20,6 +61,7 @@ function CovidStat() {
   const handleDate = (e) => {
     setUserDate(e.target.value);
   };
+  
 
   const handleSubmit = (props) => {
     props.preventDefault();
@@ -30,6 +72,7 @@ function CovidStat() {
         setData(data.response);
       });
   };
+  
 
   return (
     <div className="covid">
@@ -85,6 +128,22 @@ function CovidStat() {
           </tbody>
         </table>
       </div>
+
+      <ResponsiveContainer width="100%" aspect={3}>
+                <LineChart data={pdata} margin={{ right: 300 }}>
+                    <CartesianGrid />
+                    <XAxis dataKey="name" 
+                        interval={'preserveStartEnd'} />
+                    <YAxis></YAxis>
+                    <Legend />
+                    <Tooltip />
+                    <Line dataKey="student"
+                        stroke="black" activeDot={{ r: 8 }} />
+                    <Line dataKey="fees"
+                        stroke="red" activeDot={{ r: 8 }} />
+                </LineChart>
+            </ResponsiveContainer>
+      
     </div>
   );
 }
